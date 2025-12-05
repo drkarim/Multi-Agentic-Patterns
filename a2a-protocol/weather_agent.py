@@ -70,12 +70,22 @@ class WeatherAgent:
         # Get the last message (user input)
         last_message = state["messages"][-1]
         
-        # In a real implementation, we would parse the city from the message
-        # For now, we'll use a simple approach
-        city = "New York"  # Default city
+        # Default city
+        city = "New York"
+        
         if isinstance(last_message, HumanMessage):
-            # Simple extraction - in a real app, use more sophisticated parsing
-            city = last_message.content.split("weather in ")[-1].split(" ")[0] or city
+            content = last_message.content.lower()
+            
+            # Look for patterns like "weather in London" or "what's the weather in Paris"
+            if "weather in" in content:
+                # Get everything after "weather in"
+                parts = content.split("weather in")
+                if len(parts) > 1:
+                    # Take the first word after "weather in" as the city
+                    city = parts[1].strip().split()[0]
+            # If no city found, use the default
+            if not city:
+                city = "New York"
         
         return {"messages": state["messages"], "city": city}
     
@@ -130,13 +140,29 @@ class WeatherAgent:
         if not city:
             raise ValueError("No city provided for weather lookup")
         
+        # Format city name - try with and without capitalization
+        formatted_city = city.strip()
+        
         if self.use_real_weather:
-            # Call OpenWeatherMap API
-            url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={self.weather_api_key}&units=metric"
+            # Try with the formatted city name first
+            url = f"http://api.openweathermap.org/data/2.5/weather?q={formatted_city}&appid={self.weather_api_key}&units=metric"
             response = requests.get(url)
             
+            # If 404, try with capitalized city name
+            if response.status_code == 404:
+                capitalized_city = formatted_city.capitalize()
+                if capitalized_city != formatted_city:
+                    url = f"http://api.openweathermap.org/data/2.5/weather?q={capitalized_city}&appid={self.weather_api_key}&units=metric"
+                    response = requests.get(url)
+            
+            # If still not successful, raise an error with more details
             if response.status_code != 200:
-                raise ValueError(f"Error fetching weather data: {response.text}")
+                error_msg = f"Error fetching weather data for '{formatted_city}': {response.text}"
+                if response.status_code == 401:
+                    error_msg += "\nPlease check if your OpenWeatherMap API key is valid and has access to the API."
+                elif response.status_code == 404:
+                    error_msg += f"\nCity '{formatted_city}' not found. Please check the spelling or try a different city name."
+                raise ValueError(error_msg)
             
             weather_data = response.json()
         else:

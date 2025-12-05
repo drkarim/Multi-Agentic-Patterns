@@ -2,15 +2,17 @@ from weather_agent import WeatherAgent
 
 def main():
     try:
-        # Initialize the agent
-        agent = WeatherAgent()
+        # Initialize the agent with real weather data
+        # Set use_real_weather=False to use mock data instead
+        agent = WeatherAgent(use_real_weather=True)
         
         # Test with a city
-        city = "London"
+        city = "london"
         print(f"Getting weather for {city}...\n")
         
         # Get weather and recommendations
-        response = agent.process(f"What's the weather like in {city}?")
+        # Using a more direct query format to avoid parsing issues
+        response = agent.process(f"weather in {city}")
         
         # Print the response
         print("Agent Response:")

@@ -15,6 +15,18 @@ The system operates in a loop, with the Planner refining the plan after each exe
 
 [Read more about the Plan-and-Execute pattern →](planning-agent/README.md)
 
+### 2. Agent with a2a Protocol
+**Directory**: [a2a-protocol/](a2a-protocol/)
+
+A weather agent that demonstrates the Agent-to-Agent (a2a) communication protocol, featuring:
+- **Mock Data Support**: Test without API keys using realistic mock weather data
+- **OpenAI Integration**: Get AI-powered activity recommendations based on weather
+- **Flexible Configuration**: Toggle between real and mock data with a simple flag
+
+The agent follows a clear workflow from input processing to response formatting, making it a great example of a single-agent system with well-defined responsibilities.
+
+[Explore the a2a Protocol Agent →](a2a-protocol/README.md)
+
 ## Getting Started
 
 Each pattern has its own setup instructions and requirements. Please refer to the individual pattern's README for specific details.
@@ -36,7 +48,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ```
 MIT License
 
-Copyright (c) 2025 [Your Name]
+Copyright (c) 2025 Rashed Karim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

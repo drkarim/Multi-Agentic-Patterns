@@ -27,6 +27,18 @@ The agent follows a clear workflow from input processing to response formatting,
 
 [Explore the a2a Protocol Agent →](a2a-protocol/README.md)
 
+### 3. Reflection Pattern
+**Directory**: [reflection-pattern/](reflection-pattern/)
+
+A producer/critic loop for iterative code refinement:
+- **Producer Agent**: Drafts Python code from a user prompt with configurable creative temperature
+- **Critic Agent**: Reviews drafts as a senior engineer, flagging logic, style, and best-practice issues
+- **Feedback Loop**: Producer incorporates critiques across bounded iterations until approval or a limit is reached
+
+The Streamlit UI surfaces intermediate drafts, critiques, and final code, plus download support and API-key checks, making it easy to observe the reflection workflow end-to-end.
+
+[Dive into the Reflection Pattern →](reflection-pattern/README.md)
+
 ## Getting Started
 
 Each pattern has its own setup instructions and requirements. Please refer to the individual pattern's README for specific details.

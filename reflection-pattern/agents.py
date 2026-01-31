@@ -5,7 +5,7 @@ This module implements the Producer-Critic pattern for iterative code refinement
 
 import os
 from typing import Dict, List, Tuple
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage
 
